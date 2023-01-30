@@ -1,0 +1,61 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "BotPassport"
+version = "1.0.0"
+description = "A collections of bots for French Passeport, a real nightmare!"
+authors = ["Yannick Chabbert <yannick.chabbert.it@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+psycopg2-binary = "^2.9.5"
+requests = "^2.28.2"
+sqlalchemy = "^2.0.0"
+python-dotenv = "^0.21.1"
+alembic = "^1.9.2"
+
+[tool.poetry.group.test.dependencies]
+tox = "^3.26.0"
+coverage = {extras = ["toml"], version = "^6.5.0"}
+pylama = {extras = ["toml"], version = "^8.4.1"}
+isort = "^5.10.1"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.20.0"
+
+[tool.pylama]
+skip = ".tox/*,alembic/*"
+linters = "pycodestyle,pyflakes,mccabe"
+
+[tool.pylama.linter.pycodestyle]
+max_line_length = 119
+
+[tool.pylama.linter.mccabe]
+complexity = 15
+
+[tool.isort]
+combine_as_imports = true
+multi_line_output = 5
+include_trailing_comma = true
+skip = ".tox,alembic"
+sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+known_first_party = "passport"
+
+[tool.coverage.run]
+source = [ "passport" ]
+branch = true
+omit = [
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "def __str__",
+    "def __repr__",
+]
