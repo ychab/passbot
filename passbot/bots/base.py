@@ -16,7 +16,7 @@ class Bot:
     URL_API = None
     URL_HOMEPAGE = None
 
-    EMAIL_TIMEOUT = os.getenv('BOT_EMAIL_TIMEOUT', 60 * 3)
+    PASSBOT_TIMEOUT_MIN = int(os.getenv('PASSBOT_TIMEOUT_MIN', 5))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,7 +26,7 @@ class Bot:
 
     def start(self):
         if self._timeout_exceed():
-            logger.debug('Skiped due to timeout still active')
+            logger.debug('Skip due to timeout still active')
             return
 
         response = requests.get(self.URL_API)
@@ -37,8 +37,9 @@ class Bot:
         content = response.json()
         if self.should_alert(content):
             self._send_email()
+            logger.info(f'Match founded! Email send for {self.NAME}')
         else:
-            logger.debug(f'No data founded for {self.NAME}')
+            logger.info(f'No data founded for {self.NAME}')
 
     def should_alert(self, content) -> bool:
         raise NotImplementedError()
@@ -59,7 +60,7 @@ class Bot:
         self._log_db()
 
     def _timeout_exceed(self):
-        date_max = datetime.now() - timedelta(minutes=self.EMAIL_TIMEOUT)
+        date_max = datetime.now() - timedelta(minutes=self.PASSBOT_TIMEOUT_MIN)
 
         with SessionLocal() as db:
             count = db.query(EmailHistory) \

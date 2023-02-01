@@ -7,7 +7,7 @@ __pycache__
 /htmlcov
 
 .python-version
-.env*
+.env
 
 .idea
 .vscode
