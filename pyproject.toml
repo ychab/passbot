@@ -3,7 +3,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "BotPassport"
+name = "PassBot"
 version = "1.0.0"
 description = "A collections of bots for French Passeport, a real nightmare!"
 authors = ["Yannick Chabbert <yannick.chabbert.it@gmail.com>"]
@@ -43,10 +43,10 @@ multi_line_output = 5
 include_trailing_comma = true
 skip = ".tox,alembic"
 sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
-known_first_party = "passport"
+known_first_party = "passbot"
 
 [tool.coverage.run]
-source = [ "passport" ]
+source = [ "passbot" ]
 branch = true
 omit = [
 ]

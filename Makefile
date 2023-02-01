@@ -14,16 +14,16 @@ poetry:
 	poetry export -f requirements.txt --with test,dev -o requirements/dev.txt
 
 drop_db:
-	psql -U postgres -c "DROP DATABASE passport"
+	psql -U postgres -c "DROP DATABASE passbot"
 
 create_db_user:
 	psql -U postgres -c "CREATE USER bot WITH encrypted password 'bot' SUPERUSER"
 
 create_db:
-	psql -U postgres -c "CREATE DATABASE passport OWNER bot"
+	psql -U postgres -c "CREATE DATABASE passbot OWNER bot"
 
 lint:
-	isort passport
-	pylama passport
+	isort passbot
+	pylama passbot
 
 reset: drop_db create_db

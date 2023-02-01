@@ -1,4 +1,4 @@
-from passport.bots.stherblain_hotel import SaintHerblainBot
+from passbot.bots.stherblain_hotel import SaintHerblainBot
 
 bots = [
     SaintHerblainBot,

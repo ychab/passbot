@@ -1,4 +1,4 @@
-from passport.bots.base import Bot
+from passbot.bots.base import Bot
 
 
 class SaintHerblainBot(Bot):

@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 
 import requests
 
-from passport.databases import SessionLocal
-from passport.models import EmailHistory
-from passport.smtp import smtp_server
+from passbot.databases import SessionLocal
+from passbot.models import EmailHistory
+from passbot.smtp import smtp_server
 
 logger = logging.getLogger(__name__)
 

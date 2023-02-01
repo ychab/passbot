@@ -36,7 +36,7 @@ repos:
     rev: 8.4.1
     hooks:
       - id: pylama
-        args: [ "passport" ]
+        args: [ "passbot" ]
         additional_dependencies:
           - toml
 
