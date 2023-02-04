@@ -26,7 +26,7 @@ class Bot:
 
     def start(self):
         if self._timeout_exceed():
-            logger.debug('Skip due to timeout still active')
+            logger.info(f'Skip {self.NAME} due to timeout still active')
             return
 
         response = requests.get(self.URL_API)
