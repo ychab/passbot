@@ -3,7 +3,15 @@ all:
 
 help: all
 
-check_deps:
+pre:
+	git add .
+	pre-commit run -a
+
+lint:
+	pylama passbot
+	isort --diff --check passbot
+
+deps:
 	poetry show --outdated
 
 poetry:
@@ -22,8 +30,13 @@ create_db_user:
 create_db:
 	psql -U postgres -c "CREATE DATABASE passbot OWNER bot"
 
-lint:
-	isort passbot
-	pylama passbot
+db_upgrade:
+	alembic upgrade head
+
+db_downgrade:
+	alembic downgrade base
+
+db_revision:
+	alembic revision --autogenerate
 
 reset: drop_db create_db
