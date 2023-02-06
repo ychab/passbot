@@ -1,0 +1,19 @@
+---
+version: "3.9"
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: passbot_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      DB_NAME: "${DB_NAME}"
+    ports:
+      - "${DB_PORT}:5432"
+    env_file:
+      - .env
+    volumes:
+      - ./.docker-volumes/pg/data:/var/lib/postgresql/data
+      - ./scripts/db/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh

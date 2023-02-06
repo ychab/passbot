@@ -2,8 +2,11 @@ __pycache__
 *.pyc
 *.egg-info
 
-.tox
 .coverage
+.docker-volumes
+.mypy_cache
+.pytest_cache
+.tox
 /htmlcov
 
 .python-version

@@ -1,0 +1,60 @@
+name: Tests
+
+on:
+  - push
+  - pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  units:
+    name: tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10"]
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Update pip and install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip install tox
+
+      - name: Copy env dist
+        run: cp .env.dist .env
+
+      - name: Run tox CI
+        run: tox -e ci
+
+      - name: Make Tests Badge
+        uses: action-badges/cobertura-coverage-xml-badges@0.2.1
+        with:
+          label: tests
+          file-name: tests.svg
+          badge-branch: badges
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+          coverage-file-name: ./coverage.xml

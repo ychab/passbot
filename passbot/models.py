@@ -1,5 +1,5 @@
-from sqlalchemy import Column, DateTime, Integer, String, func
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import JSON, Column, DateTime, Integer, String, func
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -9,5 +9,12 @@ class EmailHistory(Base):
     __tablename__ = 'email_history'
 
     id = Column(Integer, primary_key=True, unique=True)
-    bot = Column(String)
+
+    spider = Column(String(length=128))
+    place = Column(String(length=128))
+    zipcode = Column(String(length=32))
+    date_slot = Column(DateTime(timezone=True))
+    link = Column(String(length=2048))
+    extra_data = Column(JSON, nullable=True)
+
     created = Column(DateTime(timezone=True), server_default=func.now())

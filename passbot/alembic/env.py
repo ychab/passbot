@@ -1,4 +1,3 @@
-import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -30,7 +29,8 @@ target_metadata = models.Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-config.set_main_option('sqlalchemy.url', os.getenv('DATABASE_URI'))
+from passbot.config import settings
+config.set_main_option('sqlalchemy.url', settings.SQLALCHEMY_DATABASE_URI)
 
 
 def run_migrations_offline() -> None:
