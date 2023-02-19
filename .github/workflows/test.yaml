@@ -42,7 +42,7 @@ jobs:
       - name: Update pip and install dependencies
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install tox
+          pip install tox>=4.4.5
 
       - name: Copy env dist
         run: cp .env.dist .env
