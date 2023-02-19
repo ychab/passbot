@@ -1,7 +1,6 @@
-
-- up tox and all others packages to latest ?
 - Bump to python3.11 to get ride of future annotation by typing.Self (cf pipelines) ?
 - bdd table registry for subscriptions on spider per user/email ?
-- add test with factories just for to compare
+- review test layout
+- add test with fixtures just for to compare
 - docker image
 - fix warning test
