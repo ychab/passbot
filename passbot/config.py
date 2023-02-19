@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from pydantic import BaseSettings, EmailStr, PostgresDsn, validator
@@ -63,7 +63,7 @@ class Settings(BaseSettings):
         if isinstance(v, datetime):  # pragma: no cover
             return v
 
-        return datetime.strptime(v, '%Y-%m-%d')
+        return datetime.strptime(v, '%Y-%m-%d').replace(tzinfo=timezone.utc)
 
 
 settings = Settings()
