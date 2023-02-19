@@ -19,6 +19,7 @@ repos:
     hooks:
       - id: poetry-check
       - id: poetry-lock
+        language_version: python3.11
       - id: poetry-export
         name: poetry-export-prod
         args: [ "-f", "requirements.txt", "--only", "main", "-o", "requirements/prod.txt" ]
@@ -56,3 +57,4 @@ repos:
           - types-python-slugify==8.0.0.0
         files: ^(passbot|tests)
         exclude: ^passbot/crawlers/(middlewares.py|settings.py)$
+        language_version: python3.11

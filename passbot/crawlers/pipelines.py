@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 from datetime import datetime, timedelta
+from typing import Self
 
 from scrapy import Item, Spider
 from scrapy.crawler import Crawler
@@ -22,7 +21,7 @@ class ZipcodeFilterPipeline:
         self.AREA_CODE: str = area_code
 
     @classmethod
-    def from_crawler(cls, crawler: Crawler) -> ZipcodeFilterPipeline:
+    def from_crawler(cls, crawler: Crawler) -> Self:
         return cls(
             area_code=crawler.settings.get(
                 'AREA_CODE',
@@ -46,7 +45,7 @@ class DateFilterPipeline:
         self.DATE_LIMIT: datetime = date_limit
 
     @classmethod
-    def from_crawler(cls, crawler: Crawler) -> DateFilterPipeline:
+    def from_crawler(cls, crawler: Crawler) -> Self:
         return cls(
             date_limit=crawler.settings.get(
                 'DATE_LIMIT',
@@ -73,7 +72,7 @@ class TimeoutFilterPipeline:
         self.TIMEOUT_MIN: int = timeout_min
 
     @classmethod
-    def from_crawler(cls, crawler: Crawler) -> TimeoutFilterPipeline:
+    def from_crawler(cls, crawler: Crawler) -> Self:
         return cls(
             timeout_min=crawler.settings.get(
                 'TIMEOUT_MIN',

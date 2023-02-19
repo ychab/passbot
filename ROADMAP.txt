@@ -1,5 +1,8 @@
-- Bump to python3.11 to get ride of future annotation by typing.Self (cf pipelines) ?
+- finish test pagination for spider
+- add a test with full crawling (and mocking response)
 - bdd table registry for subscriptions on spider per user/email ?
+- handle scrapy logging properly
+- conf pytest try with --import=importlib
 - review test layout
 - add test with fixtures just for to compare
 - docker image
