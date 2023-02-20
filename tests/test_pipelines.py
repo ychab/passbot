@@ -3,6 +3,7 @@ from unittest import mock
 
 import pytest
 from scrapy import Spider
+from scrapy.crawler import Crawler
 from scrapy.exceptions import DropItem
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -24,9 +25,15 @@ class TestZipcodeFilterPipeline:
 
     @classmethod
     def setup_class(cls):
-        cls.area_code: str = settings.PASSBOT_FILTER_AREA_CODE
-        cls.pipeline = ZipcodeFilterPipeline(area_code=cls.area_code)
-        cls.spider: Spider = ViteMonPasseport44Spider()
+        cls.crawler: Crawler = Crawler(
+            spidercls=ViteMonPasseport44Spider,
+            settings={
+                'REQUEST_FINGERPRINTER_IMPLEMENTATION': '2.7',
+                'AREA_CODE': settings.PASSBOT_FILTER_AREA_CODE,
+            },
+        )
+        cls.pipeline = ZipcodeFilterPipeline.from_crawler(cls.crawler)
+        cls.spider: Spider = ViteMonPasseport44Spider.from_crawler(cls.crawler)
 
     def test_zipcode_valid(self):
         item = self.pipeline.process_item(
@@ -61,9 +68,15 @@ class TestDateFilterPipeline:
 
     @classmethod
     def setup_class(cls):
-        cls.date_limit: datetime = settings.PASSBOT_DATE_LIMIT
-        cls.pipeline = DateFilterPipeline(date_limit=cls.date_limit)
-        cls.spider: Spider = ViteMonPasseport44Spider()
+        cls.crawler: Crawler = Crawler(
+            spidercls=ViteMonPasseport44Spider,
+            settings={
+                'REQUEST_FINGERPRINTER_IMPLEMENTATION': '2.7',
+                'DATE_LIMIT': settings.PASSBOT_FILTER_AREA_CODE,
+            },
+        )
+        cls.pipeline = DateFilterPipeline.from_crawler(cls.crawler)
+        cls.spider: Spider = ViteMonPasseport44Spider.from_crawler(cls.crawler)
 
     def test_date_missing(self):
         with pytest.raises(DropItem) as exc:
@@ -98,9 +111,17 @@ class TestTimeoutFilterPipeline(BaseTestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.timeout_min: int = settings.PASSBOT_TIMEOUT_MIN
-        cls.pipeline = TimeoutFilterPipeline(timeout_min=cls.timeout_min)
-        cls.spider: Spider = ViteMonPasseport44Spider()
+        cls.timeout_min = settings.PASSBOT_TIMEOUT_MIN
+
+        cls.crawler: Crawler = Crawler(
+            spidercls=ViteMonPasseport44Spider,
+            settings={
+                'REQUEST_FINGERPRINTER_IMPLEMENTATION': '2.7',
+                'TIMEOUT_MIN': cls.timeout_min,
+            },
+        )
+        cls.pipeline = TimeoutFilterPipeline.from_crawler(cls.crawler)
+        cls.spider: Spider = ViteMonPasseport44Spider.from_crawler(cls.crawler)
 
     @mock.patch('passbot.crawlers.pipelines.now')
     def test_locked(self, mock_now):

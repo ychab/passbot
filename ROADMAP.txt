@@ -7,3 +7,5 @@
 - add test with fixtures just for to compare
 - docker image
 - fix warning test
+- github language detection HTML 74% ?? a cause des samples...
+- @see https://docs.scrapy.org/en/latest/topics/practices.html#avoiding-getting-banned

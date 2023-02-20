@@ -1,10 +1,13 @@
 from datetime import datetime
 from pathlib import Path
+from unittest import mock
 
 import pytest
-from scrapy import Spider
-from scrapy.crawler import Crawler
+from scrapy import Spider, signals
+from scrapy.crawler import Crawler, CrawlerProcess
 from scrapy.http import HtmlResponse
+from scrapy.signalmanager import dispatcher
+from scrapy.utils.project import get_project_settings
 
 from slugify import slugify
 
@@ -14,7 +17,7 @@ from passbot.crawlers.spiders.vitemonpasseport import ViteMonPasseport44Spider
 from tests import BASE_SAMPLES
 
 
-class TestViteMonPasseport44Spider:
+class TestSpiderViteMonPasseport44:
 
     @classmethod
     def setup_class(cls):
@@ -51,3 +54,42 @@ class TestViteMonPasseport44Spider:
     @pytest.mark.skip("@TODO")
     def test_pagination(self):
         pass  # @todo play with scraper + mock for html response?
+
+
+class TestCrawlerViteMonPasseport44:
+
+    # @classmethod
+    # def setup_class(cls):
+    #     settings = get_project_settings()
+    #     settings.set('TWISTED_REACTOR', 'twisted.internet.epollreactor.EPollReactor')
+    #
+    #     # 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+    #     cls.crawler: Crawler = Crawler(
+    #         spidercls=ViteMonPasseport44Spider,
+    #         settings=settings,
+    #         # init_reactor=True,
+    #     )
+    #     cls.spider: Spider = ViteMonPasseport44Spider.from_crawler(cls.crawler)
+
+    # @mock.patch('passbot.crawlers.spiders.vitemonpasseport')
+    def test_crawl(self):
+        # for foo in iter(self.crawler.crawl()):
+        #     pass
+
+        # process = CrawlerProcess(get_project_settings())
+        #
+        # # 'followall' is the name of one of the spiders of the project.
+        # process.crawl('followall', domain='scrapy.org')
+        # process.start()  # the script will block here until the crawling is finished
+        results = []
+
+        def crawler_results(signal, sender, item, response, spider):
+            results.append(item)
+
+        dispatcher.connect(crawler_results, signal=signals.item_passed)
+
+        runner = CrawlerProcess(settings=get_project_settings())
+        runner.crawl(ViteMonPasseport44Spider)
+        runner.start()
+
+        return results
