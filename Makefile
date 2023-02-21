@@ -59,7 +59,7 @@ down:
 	docker compose down
 
 ps:
-	docker compose ps
+	docker compose ps --all
 
 restart:
 	docker compose restart
