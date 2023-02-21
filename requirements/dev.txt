@@ -755,9 +755,9 @@ scrapy==2.8.0 ; python_version >= "3.11" and python_version < "4.0" \
 service-identity==21.1.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:6e6c6086ca271dc11b033d17c3a8bea9f24ebff920c587da090afc9519419d34 \
     --hash=sha256:f0b0caac3d40627c3c04d7a51b6e06721857a0e10a8775f2d1d7e72901b3a7db
-setuptools==67.3.2 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:95f00380ef2ffa41d9bba85d95b27689d923c93dfbafed4aecd7cf988a25e012 \
-    --hash=sha256:bb6d8e508de562768f2027902929f8523932fcd1fb784e6d573d2cafac995a48
+setuptools==67.3.3 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:9d3de8591bd6f6522594406fa46a6418eabd0562dacb267f8556675762801514 \
+    --hash=sha256:ed4e75fafe103c79b692f217158ba87edf38d31004b9dbc1913debb48793c828
 six==1.16.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926 \
     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
@@ -876,9 +876,9 @@ twisted-iocpsupport==1.0.2 ; python_version >= "3.11" and python_version < "4.0"
 twisted==22.10.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:32acbd40a94f5f46e7b42c109bfae2b302250945561783a8b7a059048f2d4d31 \
     --hash=sha256:86c55f712cc5ab6f6d64e02503352464f0400f66d4f079096d744080afcccbd0
-types-python-slugify==8.0.0.0 ; python_version >= "3.11" and python_version < "4.0" \
-    --hash=sha256:0e81e016ee34ab1b772d2475d939e1a06519cd371dfd3319c4b2c2c99e6367f9 \
-    --hash=sha256:3a12e806cbd9dd7be2425781078a5186c7393b309eae02a9eef2bafd54941e83
+types-python-slugify==8.0.0.1 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:1de288ce45c85627ef632c2b5098dedccfc7ebedb241d181ba69402f03704449 \
+    --hash=sha256:f2177d2e65ecf2eca742d28fbf236a8d919a72e68272d1d748c3fe965e5ea3ab
 typing-extensions==4.5.0 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb \
     --hash=sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4
