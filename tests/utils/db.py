@@ -30,7 +30,7 @@ def drop_test_database(conn: Connection, test_db_name: str):
     except sqlalchemy.exc.ProgrammingError as exc:  # pragma: no cover
         if exc.orig.pgcode != INVALID_CATALOG_NAME:  # type: ignore
             raise exc
-    else:
+    finally:
         conn.execute(text("commit"))
 
 

@@ -7,12 +7,12 @@ from pydantic import BaseSettings, EmailStr, PostgresDsn, validator
 class Settings(BaseSettings):
 
     # DB connector
-    DB_HOST: str
-    DB_PORT: str
-    DB_USER: str
-    DB_PASSWORD: str
-    DB_NAME: str
-    SQLALCHEMY_DATABASE_URI: Optional[str] = None
+    POSTGRES_HOST: str
+    POSTGRES_PORT: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
     # SMTP connector
     SMTP_HOST: str
@@ -47,11 +47,11 @@ class Settings(BaseSettings):
 
         return PostgresDsn.build(
             scheme="postgresql",
-            host=values.get("DB_HOST"),
-            port=values.get("DB_PORT"),
-            user=values.get("DB_USER"),
-            password=values.get("DB_PASSWORD"),
-            path=f"/{values.get('DB_NAME') or ''}",
+            host=values.get("POSTGRES_HOST"),
+            port=values.get("POSTGRES_PORT"),
+            user=values.get("POSTGRES_USER"),
+            password=values.get("POSTGRES_PASSWORD"),
+            path=f"/{values.get('POSTGRES_DB') or ''}",
         )
 
     @validator("EMAILS_ENABLED", pre=True)
