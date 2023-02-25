@@ -1,22 +1,25 @@
----
-version: "3.9"
 services:
+
+  passbot:
+    image: passbot/crawlers:dev
+    container_name: passbot_crawlers
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+      - .env.dev
+    volumes:
+      - .:/code
 
   postgres:
     image: postgres:latest
     container_name: passbot_postgres
-    restart: always
     environment:
-      POSTGRES_USER: "${DB_USER}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
-      DB_NAME: "${DB_NAME}"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
     ports:
-      - "${DB_PORT}:5432"
-    env_file:
-      - .env
-    volumes:
-      - ./scripts/db/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
-      - pg_data:/var/lib/postgresql/data
-
-volumes:
-  pg_data:
+      - ${POSTGRES_PORT:-5432}:5432
