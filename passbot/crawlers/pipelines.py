@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta
 from typing import Self
 
@@ -12,7 +13,9 @@ from itemadapter import ItemAdapter
 from passbot import crud
 from passbot.config import settings
 from passbot.db import SessionFactory
-from passbot.utils import now, send_email
+from passbot.utils import now, send_email, get_recipients_for_spider
+
+logger = logging.getLogger(__name__)
 
 
 class ZipcodeFilterPipeline:
@@ -126,10 +129,21 @@ class SendEmailHistoryPipeline:
             <li>link: <a href="{adapter.get('link')}" target="_blank">Click here</a></li>
         </ul>
 """
-        succeed: bool = send_email(subject=subject, body_text=body_text, body_html=body_html)
-        if not succeed:
-            raise DropItem('Error sending email')
+        recipients = get_recipients_for_spider(spider.name)
+        if recipients:
+            succeed: bool = send_email(
+                recipients=recipients,
+                subject=subject,
+                body_text=body_text,
+                body_html=body_html,
+            )
+            if not succeed:
+                raise DropItem('Error sending email')
+        else:
+            logger.warning(f"Spider {spider.name} detect alert but no email subscribed")
 
+        # Even empty, store recipients.
+        item['recipients'] = recipients
         return item
 
 

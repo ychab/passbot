@@ -7,6 +7,8 @@ from passbot.smtp import SMTPServer
 
 class TestSMTPServer:
 
+    EMAILS_TO = ['dummy@example.com']
+
     @mock.patch('passbot.smtp.smtplib.SMTP')
     @mock.patch('passbot.smtp.settings')
     def test_html(self, mock_settings, mock_smtp):
@@ -16,7 +18,12 @@ class TestSMTPServer:
         mock_settings.SMTP_AUTH = False
 
         smtp_server = SMTPServer()
-        succeed = smtp_server.send_email('foo', 'bla bla bla', '<html><head></head><body><p>Hey!</p></body></html>')
+        succeed = smtp_server.send_email(
+            recipients=self.EMAILS_TO,
+            subject='foo',
+            body_text='bla bla bla',
+            body_html='<html><head></head><body><p>Hey!</p></body></html>',
+        )
         assert succeed is True
 
     @mock.patch('passbot.smtp.smtplib.SMTP')
@@ -28,7 +35,7 @@ class TestSMTPServer:
         mock_settings.SMTP_AUTH = True
 
         smtp_server = SMTPServer()
-        succeed = smtp_server.send_email('foo', 'bla bla bla')
+        succeed = smtp_server.send_email(self.EMAILS_TO, 'foo', 'bla bla bla')
         assert succeed is True
 
     @mock.patch('passbot.smtp.smtplib.SMTP')
@@ -40,7 +47,7 @@ class TestSMTPServer:
         mock_settings.SMTP_AUTH = False
 
         smtp_server = SMTPServer()
-        succeed = smtp_server.send_email('foo', 'bla bla bla')
+        succeed = smtp_server.send_email(self.EMAILS_TO, 'foo', 'bla bla bla')
         assert succeed is True
 
     @mock.patch('passbot.smtp.smtplib.SMTP_SSL')
@@ -51,7 +58,7 @@ class TestSMTPServer:
         mock_settings.SMTP_AUTH = True
 
         smtp_server = SMTPServer()
-        succeed = smtp_server.send_email('foo', 'bla bla bla')
+        succeed = smtp_server.send_email(self.EMAILS_TO, 'foo', 'bla bla bla')
         assert succeed is True
 
     @mock.patch('passbot.smtp.smtplib.SMTP_SSL')
@@ -62,7 +69,7 @@ class TestSMTPServer:
         mock_settings.SMTP_AUTH = False
 
         smtp_server = SMTPServer()
-        succeed = smtp_server.send_email('foo', 'bla bla bla')
+        succeed = smtp_server.send_email(self.EMAILS_TO, 'foo', 'bla bla bla')
         assert succeed is True
 
     @mock.patch('passbot.smtp.smtplib.SMTP_SSL')
@@ -76,7 +83,7 @@ class TestSMTPServer:
 
         smtp_server = SMTPServer()
         with caplog.at_level(level=logging.ERROR, logger='passbot.smtp'):
-            succeed = smtp_server.send_email('foo', 'bla bla bla')
+            succeed = smtp_server.send_email(self.EMAILS_TO, 'foo', 'bla bla bla')
 
         assert succeed is False
         assert 'Badaboom' in caplog.text

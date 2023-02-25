@@ -12,4 +12,5 @@ class EmailHistoryItem(scrapy.Item):
     zipcode = scrapy.Field()
     date_slot = scrapy.Field()
     link = scrapy.Field()
+    recipients = scrapy.Field()
     extra_data = scrapy.Field()

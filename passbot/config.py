@@ -26,7 +26,7 @@ class Settings(BaseSettings):
 
     EMAILS_ENABLED: bool = False
     EMAILS_FROM: EmailStr
-    EMAILS_TO: EmailStr
+    EMAILS_TO: dict[str, list[EmailStr]]
 
     LANGUAGE_CODE: str = 'en'
 

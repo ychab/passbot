@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta, timezone
 from unittest import mock
 
@@ -19,6 +20,7 @@ from passbot.utils import now
 
 from tests.utils.base import BaseTestCase
 from tests.utils.factory import EmailHistoryFactory
+from tests.utils.settings import override_settings
 
 
 class TestZipcodeFilterPipeline:
@@ -212,6 +214,23 @@ class TestSendEmailHistoryPipeline:
 
         assert 'Error sending email' in str(exc.value)
 
+    def test_send_no_recipient(self, caplog):
+        item = EmailHistoryItem(
+            spider=self.spider.name,
+            zipcode='44000',
+            date_slot=datetime(2023, 1, 12, 15, 12),
+            link='https://foo.example.com',
+        )
+
+        with override_settings(EMAILS_TO={self.spider.name: []}):
+            with caplog.at_level(level=logging.WARNING, logger='passbot.crawlers.pipelines'):
+                self.pipeline.process_item(
+                    item=item,
+                    spider=self.spider,
+                )
+
+        assert 'detect alert but no email subscribed' in caplog.text
+
     @mock.patch('passbot.utils.smtp_server')
     def test_send_email(self, mock_smtp):
         mock_smtp.send_email.return_value = True
@@ -228,6 +247,7 @@ class TestSendEmailHistoryPipeline:
             spider=self.spider,
         )
         assert item
+        assert len(item['recipients']) > 0
 
 
 class TestSaveHistoryPipeline(BaseTestCase):
@@ -276,6 +296,7 @@ class TestSaveHistoryPipeline(BaseTestCase):
             date_slot=datetime(2023, 1, 12, 15, 12, tzinfo=timezone.utc),
             link='https://foo.example.com',
             extra_data={'foo': 'bar'},
+            recipients=["foo@example.com", "bar@example.com"],
         )
 
         self.pipeline.open_spider(spider=self.spider)
@@ -300,4 +321,5 @@ class TestSaveHistoryPipeline(BaseTestCase):
         assert db_history.date_slot == item['date_slot']
         assert db_history.link == item['link']
         assert db_history.extra_data['foo'] == 'bar'
+        assert len(db_history.recipients) > 0
         assert isinstance(db_history.created, datetime)
