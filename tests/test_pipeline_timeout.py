@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 from unittest import mock
 
 import pytest
@@ -12,6 +12,7 @@ from passbot.crawlers.pipelines import TimeoutFilterPipeline
 from passbot.crawlers.spiders.vitemonpasseport import ViteMonPasseport44Spider
 from passbot.models import EmailHistory
 from passbot.utils import now
+
 from tests.utils.factory import EmailHistoryFactory
 
 timeout_min = settings.PASSBOT_TIMEOUT_MIN

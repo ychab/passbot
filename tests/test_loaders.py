@@ -8,7 +8,6 @@ from passbot.crawlers.items import EmailHistoryItem
 from passbot.crawlers.loaders import EmailHistoryLoader
 from passbot.crawlers.spiders.vitemonpasseport import ViteMonPasseport44Spider
 
-
 crawler: Crawler = Crawler(
     spidercls=ViteMonPasseport44Spider,
     settings={

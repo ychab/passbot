@@ -13,7 +13,6 @@ from passbot.crawlers.spiders.vitemonpasseport import ViteMonPasseport44Spider
 
 from tests import BASE_SAMPLES
 
-
 crawler: Crawler = Crawler(
     spidercls=ViteMonPasseport44Spider,
     settings={

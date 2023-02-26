@@ -1,19 +1,5 @@
 services:
 
-  passbot:
-    image: passbot/crawlers:dev
-    container_name: passbot_crawlers
-    depends_on:
-      - postgres
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-      - .env.dev
-    volumes:
-      - .:/code
-
   postgres:
     image: postgres:latest
     container_name: passbot_postgres

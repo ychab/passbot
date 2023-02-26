@@ -8,9 +8,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from passbot import crud
 from passbot.crawlers.items import EmailHistoryItem
-from passbot.crawlers.pipelines import (
-    SaveHistoryPipeline,
-)
+from passbot.crawlers.pipelines import SaveHistoryPipeline
 from passbot.crawlers.spiders.vitemonpasseport import ViteMonPasseport44Spider
 from passbot.models import EmailHistory
 

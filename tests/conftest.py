@@ -1,7 +1,6 @@
 from typing import Generator
 
 import pytest
-
 from sqlalchemy import Engine
 
 from passbot import settings
