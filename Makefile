@@ -17,8 +17,6 @@ lint:
 	isort --diff --check passbot tests
 	mypy passbot tests
 
-clean:
-	isort passbot tests
 
 deps:
 	poetry show --outdated
@@ -30,17 +28,13 @@ poetry:
 	poetry export -f requirements.txt --with test -o requirements/test.txt
 	poetry export -f requirements.txt --with test,dev -o requirements/dev.txt
 
+
 test:
 	tox -e report
 
-db_drop:
-	docker exec -it passbot_postgres psql -U ${DB_USER} -c "DROP DATABASE ${DB_NAME};"
-
-db_create:
-	docker exec -it passbot_postgres psql -U ${DB_USER} -c "CREATE DATABASE ${DB_NAME};"
 
 db_shell:
-	docker exec -it passbot_postgres psql -U ${DB_USER} -d ${DB_NAME}
+	docker exec -it passbot_postgres psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
 
 db_upgrade:
 	alembic upgrade head
@@ -51,6 +45,11 @@ db_downgrade:
 db_revision:
 	alembic revision --autogenerate
 
+
+app_shell:
+	docker exec -it passbot_crawlers /bin/bash
+
+
 up:
 	docker compose up -d
 
@@ -60,7 +59,33 @@ down:
 ps:
 	docker compose ps --all
 
+log:
+	docker compose logs passbot -f
+
+crawl:
+	docker compose exec passbot scrapy crawl vitemonpasseport_44
+	docker compose exec passbot scrapy crawl saintherblainhotel
+
 restart:
 	docker compose restart
 
-reset: db_drop db_create
+
+prod_ps:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml ps --all
+
+prod_up:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+prod_down:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml down
+
+prod_cron:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -d passbot scrapy crawl vitemonpasseport_44
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -d passbot scrapy crawl saintherblainhotel
+
+
+prune:
+	docker image prune --force
+	docker volume prune --force
+
+reset: down prune up

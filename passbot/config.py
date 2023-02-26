@@ -1,18 +1,25 @@
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Optional
 
 from pydantic import BaseSettings, EmailStr, PostgresDsn, validator
 
+PROJECT_DIR: Path = Path(__file__).parent
+BASE_DIR: Path = PROJECT_DIR.parent
+
 
 class Settings(BaseSettings):
 
+    PROJECT_DIR: Path = PROJECT_DIR
+    BASE_DIR: Path = BASE_DIR
+
     # DB connector
-    DB_HOST: str
-    DB_PORT: str
-    DB_USER: str
-    DB_PASSWORD: str
-    DB_NAME: str
-    SQLALCHEMY_DATABASE_URI: Optional[str] = None
+    POSTGRES_HOST: str
+    POSTGRES_PORT: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
     # SMTP connector
     SMTP_HOST: str
@@ -26,12 +33,13 @@ class Settings(BaseSettings):
 
     EMAILS_ENABLED: bool = False
     EMAILS_FROM: EmailStr
-    EMAILS_TO: EmailStr
+    EMAILS_TO: dict[str, list[EmailStr]]
 
     LANGUAGE_CODE: str = 'en'
 
     PASSBOT_LOG_PATH: str = '/tmp/passbot.log'
     PASSBOT_LOG_LEVEL: str = 'DEBUG'
+    PASSBOT_LOG_HANDLERS: list[str] = ['console']
 
     PASSBOT_DATE_LIMIT: datetime
     PASSBOT_FILTER_AREA_CODE: str
@@ -39,6 +47,8 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive = True
+        env_file = [BASE_DIR / '.env']
+        env_file_encoding = 'utf-8'
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: dict[str, Any]) -> str:
@@ -47,11 +57,11 @@ class Settings(BaseSettings):
 
         return PostgresDsn.build(
             scheme="postgresql",
-            host=values.get("DB_HOST"),
-            port=values.get("DB_PORT"),
-            user=values.get("DB_USER"),
-            password=values.get("DB_PASSWORD"),
-            path=f"/{values.get('DB_NAME') or ''}",
+            host=values.get("POSTGRES_HOST"),
+            port=values.get("POSTGRES_PORT"),
+            user=values.get("POSTGRES_USER"),
+            password=values.get("POSTGRES_PASSWORD"),
+            path=f"/{values.get('POSTGRES_DB') or ''}",
         )
 
     @validator("EMAILS_ENABLED", pre=True)
@@ -64,6 +74,3 @@ class Settings(BaseSettings):
             return v
 
         return datetime.strptime(v, '%Y-%m-%d').replace(tzinfo=timezone.utc)
-
-
-settings = Settings()

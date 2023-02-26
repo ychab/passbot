@@ -6,9 +6,9 @@ from typing import Optional
 
 from pydantic import EmailStr
 
-from passbot.config import settings
+from passbot import settings
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 
 
 class SMTPServer:
@@ -24,14 +24,20 @@ class SMTPServer:
         self.SMTP_SSL_CONTEXT: bool = settings.SMTP_SSL_CONTEXT
 
         self.EMAILS_FROM: EmailStr = settings.EMAILS_FROM
-        self.EMAILS_TO: EmailStr = settings.EMAILS_TO
 
-    def send_email(self, subject: str, body_text: str, body_html: Optional[str] = None) -> bool:
+    def send_email(
+            self,
+            recipients: list[EmailStr],
+            subject: str,
+            body_text: str,
+            body_html: Optional[str] = None
+    ) -> bool:
+
         msg: EmailMessage = EmailMessage()
 
         msg['Subject'] = subject
         msg['From'] = self.EMAILS_FROM
-        msg['To'] = self.EMAILS_TO
+        msg['To'] = ", ".join(recipients)
 
         msg.set_content(body_text)
         if body_html:

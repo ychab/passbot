@@ -6,7 +6,7 @@ import scrapy
 from scrapy import Selector
 from scrapy.http import HtmlResponse
 
-from passbot.config import settings
+from passbot import settings
 from passbot.crawlers.items import EmailHistoryItem
 from passbot.crawlers.loaders import EmailHistoryLoader
 

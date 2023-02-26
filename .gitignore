@@ -4,7 +4,9 @@ __pycache__
 
 .python-version
 
-.env
+.env*
+!.env.dist
+!.env.dev
 
 .pytest_cache
 .tox

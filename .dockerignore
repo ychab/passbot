@@ -1,0 +1,14 @@
+.python-version
+
+.env*
+
+tests
+.coverage
+.pytest_cache
+.tox
+coverage.xml
+htmlcov
+
+.mypy_cache
+
+.github
