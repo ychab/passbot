@@ -39,6 +39,7 @@ class Settings(BaseSettings):
 
     PASSBOT_LOG_PATH: str = '/tmp/passbot.log'
     PASSBOT_LOG_LEVEL: str = 'DEBUG'
+    PASSBOT_LOG_HANDLERS: list[str] = ['console']
 
     PASSBOT_DATE_LIMIT: datetime
     PASSBOT_FILTER_AREA_CODE: str

@@ -1,13 +1,13 @@
 import logging.config
 
-from passbot.config import settings
+from passbot import settings
 
 conf = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'formatters': {
         'default': {
-            'format': '%(asctime)s %(levelname)-8s %(message)s',
+            'format': '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
@@ -16,27 +16,19 @@ conf = {
             'class': 'logging.StreamHandler',
             'level': 'DEBUG',
             'formatter': 'default',
-            'stream': 'ext://sys.stdout',
         },
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
             'level': 'DEBUG',
-            'filename': settings.PASSBOT_LOG_PATH,
             'formatter': 'default',
-            'maxBytes': 1024,
-            'backupCount': 3,
+            'filename': settings.PASSBOT_LOG_PATH,
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
         },
     },
-    'loggers': {
-        'passbot': {
-            'handlers': ['console', 'file'],
-            'level': settings.PASSBOT_LOG_LEVEL,
-            'propagate': False,
-        }
-    },
     'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
+        'handlers': settings.PASSBOT_LOG_HANDLERS,
+        'level': settings.PASSBOT_LOG_LEVEL,
     },
 }
 
