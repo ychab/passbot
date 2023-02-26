@@ -10,10 +10,9 @@ from sqlalchemy.orm import Session
 
 from itemadapter import ItemAdapter
 
-from passbot import crud
-from passbot.config import settings
+from passbot import crud, settings
 from passbot.db import SessionFactory
-from passbot.utils import now, send_email, get_recipients_for_spider
+from passbot.utils import get_recipients_for_spider, now, send_email
 
 logger = logging.getLogger(__name__)
 

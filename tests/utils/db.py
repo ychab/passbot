@@ -6,10 +6,8 @@ from sqlalchemy.engine import URL, Connection, Engine, make_url
 
 from psycopg2.errorcodes import INVALID_CATALOG_NAME
 
-from passbot.config import settings
+from passbot import settings
 from passbot.db import SessionFactory, SessionScoped, engine
-
-test_engine: Engine
 
 
 def init_db(test_db_name: str):
@@ -39,9 +37,7 @@ def create_test_database(conn: Connection, test_db_name: str):
     conn.execute(text("commit"))
 
 
-def configure_sessionmakers(test_db_name: str) -> None:
-    global test_engine  # Booooo, shame on you!
-
+def configure_sessionmakers(test_db_name: str) -> Engine:
     url: URL = make_url(cast(str, settings.SQLALCHEMY_DATABASE_URI))
     url = url.set(database=test_db_name)
 
@@ -51,3 +47,5 @@ def configure_sessionmakers(test_db_name: str) -> None:
     # Then reconfigure global sessionmakers to use it... Tada!
     SessionFactory.configure(bind=test_engine)
     SessionScoped.configure(bind=test_engine)
+
+    return test_engine

@@ -3,7 +3,7 @@ from typing import cast
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from passbot.config import settings
+from passbot import settings
 
 if not settings.SQLALCHEMY_DATABASE_URI:  # pragma: no cover
     raise RuntimeError('Did you forgot to configure DB?')

@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 import factory
 from factory import fuzzy
 
-from passbot.config import settings
+from passbot import settings
 from passbot.db import SessionScoped
 from passbot.models import EmailHistory
 

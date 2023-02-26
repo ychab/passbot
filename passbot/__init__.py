@@ -1,6 +1,6 @@
-from dotenv import load_dotenv
+from passbot.config import Settings
 
-load_dotenv()
+settings = Settings()
 
 from passbot.loggers import load_loggers  # noqa
 

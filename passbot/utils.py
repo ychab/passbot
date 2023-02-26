@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import EmailStr
 
-from passbot.config import settings
+from passbot import settings
 from passbot.smtp import smtp_server
 
 

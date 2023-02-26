@@ -1,10 +1,17 @@
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Optional
 
 from pydantic import BaseSettings, EmailStr, PostgresDsn, validator
 
+PROJECT_DIR: Path = Path(__file__).parent
+BASE_DIR: Path = PROJECT_DIR.parent
+
 
 class Settings(BaseSettings):
+
+    PROJECT_DIR: Path = PROJECT_DIR
+    BASE_DIR: Path = BASE_DIR
 
     # DB connector
     POSTGRES_HOST: str
@@ -39,6 +46,8 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive = True
+        env_file = [BASE_DIR / '.env']
+        env_file_encoding = 'utf-8'
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: dict[str, Any]) -> str:
@@ -64,6 +73,3 @@ class Settings(BaseSettings):
             return v
 
         return datetime.strptime(v, '%Y-%m-%d').replace(tzinfo=timezone.utc)
-
-
-settings = Settings()
