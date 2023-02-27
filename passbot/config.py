@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     LANGUAGE_CODE: str = 'en'
 
     PASSBOT_LOG_PATH: str = '/tmp/passbot.log'
-    PASSBOT_LOG_LEVEL: str = 'DEBUG'
+    PASSBOT_LOG_LEVEL: str = 'INFO'
     PASSBOT_LOG_HANDLERS: list[str] = ['console']
 
     PASSBOT_DATE_LIMIT: datetime
