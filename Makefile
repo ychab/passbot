@@ -63,29 +63,14 @@ log:
 	docker compose logs passbot -f
 
 crawl:
+	docker compose exec passbot scrapy crawl saintherblainhotel_identity
+	docker compose exec passbot scrapy crawl saintherblainhotel_passport
 	docker compose exec passbot scrapy crawl vitemonpasseport_44
-	docker compose exec passbot scrapy crawl saintherblainhotel
 
 restart:
 	docker compose restart
 
-
-prod_ps:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml ps --all
-
-prod_up:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-
-prod_down:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml down
-
-prod_cron:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -d passbot scrapy crawl vitemonpasseport_44
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -d passbot scrapy crawl saintherblainhotel
-
-
 prune:
-	docker image prune --force
-	docker volume prune --force
+	docker system prune --force
 
 reset: down prune up

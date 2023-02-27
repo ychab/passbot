@@ -3,31 +3,31 @@ import json
 from scrapy.http import TextResponse
 
 from passbot.crawlers.items import EmailHistoryItem
-from passbot.crawlers.spiders.saintherblainhotel import SaintHerblainHotelSpider
+from passbot.crawlers.spiders.saintherblainhotel import SaintHerblainHotelPassportSpider
 
 
 def test_parse_none():
     scrapy_response = TextResponse(
-        SaintHerblainHotelSpider.start_urls[0],
+        SaintHerblainHotelPassportSpider.start_urls[0],
         body=json.dumps({}),
         encoding='utf-8',
     )
 
-    spider = SaintHerblainHotelSpider()
+    spider = SaintHerblainHotelPassportSpider()
     items = list((spider.parse(scrapy_response)))
     assert len(items) == 0
 
 
 def test_parse():
     scrapy_response = TextResponse(
-        SaintHerblainHotelSpider.start_urls[0],
+        SaintHerblainHotelPassportSpider.start_urls[0],
         body=json.dumps({
             'availabletimeslots': {'first': 'now'},
         }),
         encoding='utf-8',
     )
 
-    spider = SaintHerblainHotelSpider()
+    spider = SaintHerblainHotelPassportSpider()
     items = list((spider.parse(scrapy_response)))
     assert len(items) == 1
 

@@ -25,7 +25,7 @@ def send_email(
 def get_recipients_for_spider(spider: str) -> list[EmailStr]:
     recipients = settings.EMAILS_TO.get(spider, [])
     recipients += settings.EMAILS_TO.get('*', [])
-    return recipients
+    return list(set(recipients))
 
 
 def now() -> datetime:
