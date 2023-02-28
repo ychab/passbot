@@ -37,5 +37,5 @@ def test_parse():
     assert item['place'] == 'Saint Herblain Hotel de ville'
     assert item['zipcode'] == '44800'
     assert item['link'] == 'https://www.saint-herblain.fr/services-et-demarches/etat-civil-papiers-didentite-elections/carte-didentite-passeport'  # noqa
-    assert item['date_slot'] is None
+    assert item['date_slot'] is not None
     assert item['extra_data']['availabletimeslots']['first'] == 'now'

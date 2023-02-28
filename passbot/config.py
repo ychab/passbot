@@ -37,7 +37,9 @@ class Settings(BaseSettings):
 
     LANGUAGE_CODE: str = 'en'
 
-    PASSBOT_LOG_PATH: str = '/tmp/passbot.log'
+    PASSBOT_LOG_FILE_PATH: Optional[str]
+    PASSBOT_LOG_FILE_MAX_BYTES: int = 1024 * 1024 * 5
+    PASSBOT_LOG_FILE_BACKUP_COUNT: int = 5
     PASSBOT_LOG_LEVEL: str = 'INFO'
     PASSBOT_LOG_HANDLERS: list[str] = ['console']
 
