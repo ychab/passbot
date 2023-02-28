@@ -6,6 +6,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+from passbot import settings
 
 BOT_NAME = "PassBot"
 
@@ -85,3 +86,9 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 LOG_ENABLED = False
+
+
+# PASSBOT settings
+
+AREA_CODE = settings.PASSBOT_FILTER_AREA_CODE
+DATE_LIMIT = settings.PASSBOT_DATE_LIMIT

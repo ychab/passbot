@@ -59,7 +59,7 @@ down:
 ps:
 	docker compose ps --all
 
-log:
+logs:
 	docker compose logs passbot -f
 
 crawl:
@@ -71,6 +71,6 @@ restart:
 	docker compose restart
 
 prune:
-	docker system prune --force
+	docker system prune --all --force --volumes
 
 reset: down prune up

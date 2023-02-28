@@ -35,7 +35,7 @@ class ZipcodeFilterPipeline:
         adapter: ItemAdapter = ItemAdapter(item)
         zipcode: str = adapter.get('zipcode')
 
-        if not zipcode or len(zipcode) != 5 or not zipcode.startswith(self.AREA_CODE):
+        if not zipcode or not zipcode.startswith(self.AREA_CODE):
             raise DropItem(f'Skip item with zipcode {zipcode}')
 
         return item

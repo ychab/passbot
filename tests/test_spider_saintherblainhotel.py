@@ -1,13 +1,13 @@
 import json
 
-from scrapy.http import TextResponse
+from scrapy.http import HtmlResponse
 
 from passbot.crawlers.items import EmailHistoryItem
 from passbot.crawlers.spiders.saintherblainhotel import SaintHerblainHotelPassportSpider
 
 
 def test_parse_none():
-    scrapy_response = TextResponse(
+    scrapy_response = HtmlResponse(
         SaintHerblainHotelPassportSpider.start_urls[0],
         body=json.dumps({}),
         encoding='utf-8',
@@ -19,7 +19,7 @@ def test_parse_none():
 
 
 def test_parse():
-    scrapy_response = TextResponse(
+    scrapy_response = HtmlResponse(
         SaintHerblainHotelPassportSpider.start_urls[0],
         body=json.dumps({
             'availabletimeslots': {'first': 'now'},

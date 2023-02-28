@@ -100,3 +100,4 @@ exclude_lines = [
     "def __repr__",
     "pass",
 ]
+precision = 2

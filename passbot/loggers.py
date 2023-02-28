@@ -10,7 +10,7 @@ handlers: dict[str, Any] = {
         'formatter': 'default',
     },
 }
-if settings.PASSBOT_LOG_FILE_PATH:
+if settings.PASSBOT_LOG_FILE_PATH:  # pragma: no cover
     handlers['file'] = {
         'class': 'logging.handlers.RotatingFileHandler',
         'level': 'DEBUG',
