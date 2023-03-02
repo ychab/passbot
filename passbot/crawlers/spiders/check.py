@@ -19,6 +19,6 @@ class CheckSpider(scrapy.Spider):
         yield EmailHistoryItem(
             spider=self.name,
             place='Scrapy website itself',
-            zipcode=self.settings.get('AREA_CODES'),
+            zipcode='44000',
             date_slot=self.settings.get('DATE_LIMIT') - timedelta(days=5),
         )

@@ -28,5 +28,5 @@ def test_parse():
     assert isinstance(item, EmailHistoryItem)
     assert item['spider'] == spider.name
     assert item['place'] == 'Scrapy website itself'
-    assert item['zipcode'] == spider.settings.get('AREA_CODES')
+    assert item['zipcode'] == '44000'
     assert item['date_slot'] < spider.settings.get('DATE_LIMIT')
