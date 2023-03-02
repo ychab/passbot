@@ -14,7 +14,7 @@ crawler: Crawler = Crawler(
     spidercls=ViteMonPasseport44Spider,
     settings={
         'REQUEST_FINGERPRINTER_IMPLEMENTATION': '2.7',
-        'DATE_LIMIT': settings.PASSBOT_FILTER_AREA_CODE,
+        'DATE_LIMIT': settings.PASSBOT_DATE_LIMIT,
     },
 )
 pipeline = DateFilterPipeline.from_crawler(crawler)

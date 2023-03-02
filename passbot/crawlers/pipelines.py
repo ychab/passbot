@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime, timedelta
-from typing import Self
+from typing import Optional, Self
 
 from scrapy import Item, Spider
 from scrapy.crawler import Crawler
@@ -19,15 +19,15 @@ logger = logging.getLogger(__name__)
 
 class ZipcodeFilterPipeline:
 
-    def __init__(self, area_code: str):
-        self.AREA_CODE: str = area_code
+    def __init__(self, area_codes: Optional[list[str]] = None):
+        self.AREA_CODES: Optional[list[str]] = area_codes
 
     @classmethod
     def from_crawler(cls, crawler: Crawler) -> Self:
         return cls(
-            area_code=crawler.settings.get(
-                'AREA_CODE',
-                settings.PASSBOT_FILTER_AREA_CODE,
+            area_codes=crawler.settings.get(
+                'AREA_CODES',
+                settings.PASSBOT_FILTER_AREA_CODES,
             ),
         )
 
@@ -35,8 +35,12 @@ class ZipcodeFilterPipeline:
         adapter: ItemAdapter = ItemAdapter(item)
         zipcode: str = adapter.get('zipcode')
 
-        if not zipcode or not zipcode.startswith(self.AREA_CODE):
-            raise DropItem(f'Skip item with zipcode {zipcode}')
+        if not zipcode or len(zipcode) != 5:
+            raise DropItem('Skip item without zipcode or invalid')
+
+        match = zipcode.startswith(tuple(self.AREA_CODES)) if self.AREA_CODES else True
+        if not match:
+            raise DropItem(f'Skip item with zipcode {zipcode} not matching {self.AREA_CODES}')
 
         return item
 

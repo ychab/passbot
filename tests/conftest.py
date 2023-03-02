@@ -2,6 +2,7 @@ from typing import Generator
 
 import pytest
 from sqlalchemy import Engine
+from sqlalchemy.orm import Session
 
 from passbot import settings
 from passbot.db import SessionScoped
@@ -11,7 +12,7 @@ from tests.utils.db import configure_sessionmakers, init_db
 
 
 @pytest.fixture(scope="session", autouse=True)
-def test_engine() -> Generator:
+def test_engine() -> Generator[Engine, None, None]:
     test_db_name: str = f"test_{settings.POSTGRES_DB}"
 
     init_db(test_db_name)
@@ -20,7 +21,7 @@ def test_engine() -> Generator:
 
 
 @pytest.fixture
-def session_db(test_engine) -> Generator:
+def session_db(test_engine) -> Generator[Session, None, None]:
     Base.metadata.create_all(bind=test_engine)
     session_db = SessionScoped()
 

@@ -44,7 +44,7 @@ class Settings(BaseSettings):
     PASSBOT_LOG_HANDLERS: list[str] = ['console']
 
     PASSBOT_DATE_LIMIT: datetime
-    PASSBOT_FILTER_AREA_CODE: str
+    PASSBOT_FILTER_AREA_CODES: Optional[list[str]] = None
     PASSBOT_TIMEOUT_MIN: int = 5
 
     class Config:
