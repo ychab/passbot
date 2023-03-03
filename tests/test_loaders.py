@@ -79,3 +79,22 @@ def test_date_slot_date():
     item = loader.load_item()
     assert isinstance(item['date_slot'], datetime)
     assert item['date_slot'].strftime('%Y-%m-%d') == datetime(2023, 6, 15).strftime('%Y-%m-%d')
+
+
+def test_link_absolute():
+    loader = EmailHistoryLoader(item=EmailHistoryItem())
+    loader.context['base_url'] = 'https://foo.com'
+    loader.add_value('link', 'https://foo.com/bar')
+
+    item = loader.load_item()
+    assert item['link'] == 'https://foo.com/bar'
+
+
+def test_link_relative():
+    loader = EmailHistoryLoader(item=EmailHistoryItem())
+    loader.context['base_url'] = 'https://foo.com'
+
+    loader.add_value('link', '/bar')
+
+    item = loader.load_item()
+    assert item['link'] == 'https://foo.com/bar'

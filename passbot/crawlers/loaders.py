@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Mapping, Optional
+from urllib.parse import urlparse
 
 from scrapy.loader import ItemLoader
 
@@ -37,7 +38,10 @@ def extract_date_slot(value: str, loader_context: Mapping) -> Optional[datetime]
 
 
 def extract_link(value: str, loader_context: Mapping) -> str:
-    return loader_context.get('base_url', '') + value
+    prefix: str = ""
+    if not urlparse(value).netloc:
+        prefix = loader_context.get('base_url', '')
+    return f"{prefix}{value}"
 
 
 class EmailHistoryLoader(ItemLoader):
