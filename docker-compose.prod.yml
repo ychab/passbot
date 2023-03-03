@@ -10,3 +10,19 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env.prod
+
+  postgres:
+    image: postgres:latest
+    container_name: passbot_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
+    name: passbot_pgdata
